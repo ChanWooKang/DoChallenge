@@ -7,16 +7,21 @@ public class MonsterStateInitial : TSingleton<MonsterStateInitial>, IFSMState<Mo
 {
     public void Enter(MonsterCtrl m)
     {
-        throw new System.NotImplementedException();
+        m._offSet = m.transform.position;
+        m.Stat.SetStat(m.MonsterType);
+        m.SetTarget();
+        m.InitData();
+        m.BaseNavSetting();
+        m.ChangeState(MonsterStatePatrol._inst);
     }
 
     public void Execute(MonsterCtrl m)
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public void Exit(MonsterCtrl m)
     {
-        throw new System.NotImplementedException();
+        
     }
 }

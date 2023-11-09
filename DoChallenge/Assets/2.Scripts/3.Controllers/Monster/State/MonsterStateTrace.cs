@@ -7,16 +7,36 @@ public class MonsterStateTrace : TSingleton<MonsterStateTrace>, IFSMState<Monste
 {
     public void Enter(MonsterCtrl m)
     {
-        throw new System.NotImplementedException();
+        m.Agent.speed = m.Stat.TraceSpeed;
+        m.State = MonsterState.Trace;
+        m.BaseNavSetting();
     }
 
     public void Execute(MonsterCtrl m)
     {
-        throw new System.NotImplementedException();
+        if (m.CheckFarFromOffSet())
+            m.ChangeState(MonsterStateReturn._inst);
+        else
+        {
+            if (m.target != null)
+            {
+                if (m.CheckCloseTarget(m.target.position, m.Stat.TraceRange))
+                {
+                    m.Move(m.target.position);
+                    if (m.CheckCloseTarget(m.target.position, m.Stat.AttackRange))
+                        m.ChangeState(MonsterStateAttack._inst);
+                }
+                else
+                    m.ChangeState(MonsterStatePatrol._inst);
+            }
+            else
+                m.ChangeState(MonsterStatePatrol._inst);
+        }
+
     }
 
     public void Exit(MonsterCtrl m)
     {
-        throw new System.NotImplementedException();
+        
     }
 }
