@@ -138,19 +138,5 @@ public class PoolingManager : MonoBehaviour
     }
     #endregion [ Instatiate ]
 
-    #region [ UI_WorldSpace ]
-    public T MakeUIWorldSpace<T>(Transform parent = null, string name = null) where T : UI_Base
-    {
-        if (string.IsNullOrEmpty(name))
-            name = typeof(T).Name;
-        GameObject go = InstantiateAPS(name, parent);
-
-        Canvas canvas = go.GetOrAddComponent<Canvas>();
-        canvas.renderMode = RenderMode.WorldSpace;
-        canvas.worldCamera = Camera.main;
-
-        return Utility.GetOrAddComponent<T>(go);
-
-    }
-    #endregion [ UI_WorldSpace ]
+    
 }

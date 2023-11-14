@@ -17,12 +17,14 @@ public class Managers : MonoBehaviour
     InputManager _input = new InputManager();
     ResourceManager _resource = new ResourceManager();
     SceneManagerEx _scene = new SceneManagerEx();
+    UIManager _ui = new UIManager();
 
     public static DataManager Data { get { return Instance._data; } }
     public static FileManager File { get { return Instance._file; } }
     public static InputManager Input { get { return Instance._input; } }
     public static ResourceManager Resource { get { return Instance._resource; } }
     public static SceneManagerEx Scene { get { return Instance._scene; } }
+    public static UIManager UI { get { return Instance._ui; } }
 
     #endregion [ Core ]
 
@@ -43,7 +45,8 @@ public class Managers : MonoBehaviour
 
     public static void Clear()
     {
+        UI.Clear();
         Input.Clear();
-        Scene.Clear();
+        Scene.Clear();        
     }
 }

@@ -32,9 +32,4 @@ public abstract class BaseScene : MonoBehaviour
         PoolingManager.Pool.Clear();
         PrevScene = CurrScene;
     }
-
-    //public abstract void NewGame();
-    //public abstract void ContinueGame();
-
-    //public virtual void Quit() { }
 }

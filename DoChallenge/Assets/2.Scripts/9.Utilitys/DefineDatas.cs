@@ -2,11 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace Define
 {
-    #region [Enum]
-
     #region [ System ]
     public enum eScene
     {
@@ -42,10 +39,11 @@ namespace Define
         Boss,
         Fire
     }
-
-    public enum CameraMode
+    public enum eSound
     {
-        QuaterView
+        BGM = 0,
+        SFX,
+        Max_Cnt
     }
 
     public enum PoolType
@@ -55,15 +53,47 @@ namespace Define
         Effect,
         UI,
     }
+
+    public enum eCursor
+    {
+        Unknwon = 0,
+        Default,
+        Attack,
+    }
+
+    public enum UIEvent
+    {
+        Click
+    }
+
+    public enum MouseEvent
+    {
+        Click,
+        Press,
+        PointerDown,
+        PointerUp,
+    }
+
+    public interface ILoader<Key, Value>
+    {
+        Dictionary<Key, Value> Make();
+    }
     #endregion [ System ]
+}
+
+namespace Define
+{
+    #region [Enum]    
+
+    #region [ Game ]
+    public enum CameraMode
+    {
+        QuaterView
+    }
+    #endregion [ Game ]
 
     #region [ Sound ]
-    public enum eSound
-    {
-        BGM = 0,
-        SFX,
-        Max_Cnt
-    }
+
 
     public enum eSoundList
     {
@@ -90,32 +120,7 @@ namespace Define
         Player_Heal,
         Boss_Bite
     }
-    #endregion [ Sound ]
-
-    #region [ MouseEvent ]
-
-    public enum eCursor
-    {
-        Unknwon = 0,
-        Default,
-        Attack,
-    }
-
-    public enum UIEvent
-    {
-        Click
-    }
-
-    public enum MouseEvent
-    {
-        Click,
-        Press,
-        PointerDown,
-        PointerUp,
-    }
-
-
-    #endregion [ MouseEvent ]
+    #endregion [ Sound ]   
 
     #region [ Player ]
     public enum PlayerState
@@ -133,11 +138,12 @@ namespace Define
         ContinueAttack,
         ActDodge,
         ActSkill,
-
+        ClickMonster,
+        InBossField,
         Max_Cnt,
     }
 
-    public enum eSkill
+    public enum PlayerSkill
     {
         Unknown = 0,
         Slash,
@@ -150,7 +156,6 @@ namespace Define
     #endregion [ Player ]
 
     #region [ Monster ]
-
     public enum eMonster
     {
         Unknown = 0,
@@ -189,13 +194,30 @@ namespace Define
         Disable
     }
 
-    public enum MonsterCombo
+    #endregion
+
+    #region [ Boss ]
+    public enum BossState
     {
-        Hit1,
-        Hit2
+        Die,
+        Sleep,
+        Idle,
+        Scream,
+        Trace,
+        Return,
+        Attack,
+        HandAttack,
+        FlameAttack,
+        Disable
     }
 
-    #endregion
+    public enum BossPattern
+    {
+        Basic,
+        Hand,
+        Flame
+    }
+    #endregion [ Boss ]
 
     #region [ Stat ]
 
@@ -279,13 +301,39 @@ namespace Define
         public int weight;
     }
 
-#endregion [Class]
+    #endregion [Class]
 
     #region [ Interface ]
 
-    public interface ILoader<Key, Value>
+    public interface IHitAble
     {
-        Dictionary<Key, Value> Make();
+        bool OnDamage(BaseStat attack);
+        bool OnDamage(float damage);
+    }
+   
+    public interface IMonsterSpawn
+    {
+        void Spawn(Vector3 pos, BossField bf);
+
+        void Respawn();
+    }
+
+    public interface IItemSpawn
+    {
+        void Spawn(SOItem item, int gold = 0);
+    }
+
+    public interface IMonster
+    {
+        void Attack(Animator anim);
+
+        void Sense(Animator anim);
+    }
+
+    public interface IInteractive
+    {
+        void Interact();
+        void Out();
     }
 
     public interface IFSMState<T>
@@ -313,17 +361,19 @@ namespace Define
         public Transform target;
         public eMonster targetType;
     }
-    #endregion [ Struct ]
-
-    public static class ConstData
-    {
-        public const string Ground = "Ground";
-        public const string Weapon = "Weapon";
-        public const string Cry = "Cry";
-        public const string Slash = "Slash";
-    }
+    #endregion [ Struct ]    
 }
 
+namespace Define
+{
+    public static class ConstData
+    {
+        public const string Tag_Interact = "Interact";
+        public const string Tag_Ground = "Ground";
+        public const string Tag_Player = "Player";
+        public const string Tag_Boss = "Boss";
+    }
+}
 
 
 
